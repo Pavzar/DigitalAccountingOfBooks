@@ -4,6 +4,8 @@ Implementation of digital accounting of books using Spring Framework, Thymeleaf,
 
 Librarians can register readers, give them books and release books (after the reader returns the book back to the library).
 
+![tables](https://user-images.githubusercontent.com/66802888/218851171-aaaa6d60-9a2f-45dc-ad2d-b38c2bdf66f6.png)
+
 ![people](https://user-images.githubusercontent.com/66802888/218819596-2e97d05e-4872-4e66-aaf5-6b7d7b84675e.png)
 
 ![peopleNew](https://user-images.githubusercontent.com/66802888/218820909-a72a6c2c-672b-47c5-b3a1-7105ccd80303.png)
