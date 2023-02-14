@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import pav.zar.booklibrary.models.Person;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PersonDAO {
@@ -38,5 +39,10 @@ public class PersonDAO {
 
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM Person WHERE person_id=?", id);
+    }
+
+    public Optional<Person> getPersonByFullName(String fullName) {
+        return jdbcTemplate.query("SELECT * FROM Person WHERE full_name=?",
+                new BeanPropertyRowMapper<>(Person.class), fullName).stream().findAny();
     }
 }
