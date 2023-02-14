@@ -12,6 +12,7 @@ import pav.zar.booklibrary.models.Person;
 import pav.zar.booklibrary.util.PersonValidator;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
@@ -33,7 +34,7 @@ public class BooksController {
     }
 
     @GetMapping("/new")
-    public String newPerson(@ModelAttribute("book") Book book) {
+    public String newBook(@ModelAttribute("book") Book book) {
         return "books/new";
     }
 
@@ -50,7 +51,15 @@ public class BooksController {
     @GetMapping("/{id}")
     public String show(@ModelAttribute("person") Person person, @PathVariable("id") int id, Model model) {
         model.addAttribute("book", bookDAO.show(id));
-        model.addAttribute("people", personDAO.index());
+
+        Optional<Person> bookOwner = bookDAO.getBookOwner(id);
+
+        if(bookOwner.isPresent()){
+            model.addAttribute("owner", bookOwner.get());
+        } else {
+            model.addAttribute("people", personDAO.index());
+        }
+
         return "books/show";
     }
 
