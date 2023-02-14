@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import pav.zar.booklibrary.models.Book;
 import pav.zar.booklibrary.models.Person;
 
 import java.util.List;
@@ -44,5 +45,9 @@ public class PersonDAO {
     public Optional<Person> getPersonByFullName(String fullName) {
         return jdbcTemplate.query("SELECT * FROM Person WHERE full_name=?",
                 new BeanPropertyRowMapper<>(Person.class), fullName).stream().findAny();
+    }
+
+    public List<Book> getBooksByPersonId(int id){
+        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id=?", new BeanPropertyRowMapper<>(Book.class), id);
     }
 }
