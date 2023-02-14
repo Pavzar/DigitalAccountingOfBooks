@@ -6,10 +6,12 @@
 </head>
 
 <body>
+<b>Person's information page</b>
+<br/>
 <p th:text="${person.getFullName() + ', ' + person.getYearOfBirth()}">VALUE</p>
 
 <div th:if="${books.isEmpty()}">
-    <p>Person has not yet taken a book</p>
+    <p>Person has not yet taken any book</p>
 </div>
 
 <div th:if="${!books.isEmpty()}">
@@ -29,6 +31,5 @@
 <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getPersonId()})}">
   <input type="submit" value="Delete"/>
 </form>
-
 </body>
 </html>

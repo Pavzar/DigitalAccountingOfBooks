@@ -5,16 +5,21 @@
     <title>New person</title>
 </head>
 <body>
+<b>Register a new person page</b>
+<br/>
+<br/>
 <form th:method="POST" th:action="@{/people}" th:object="${person}">
-  <label for="name">Enter name: </label>
+  <label for="name">Full name: </label>
   <input type="text" th:field="*{fullName}" id="name"/>
   <div style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Name Error</div>
   <br/>
-  <label for="year">Enter year: </label>
+  <br/>
+  <label for="year">Year of birth: </label>
   <input type="text" th:field="*{yearOfBirth}" id="year"/>
   <div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Year Error</div>
   <br/>
-  <input type="submit" value="Create person"/>
+  <hr/>
+  <input type="submit" value="Register person"/>
 </form>
 </body>
 </html>
