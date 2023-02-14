@@ -9,6 +9,7 @@ import pav.zar.booklibrary.dao.BookDAO;
 import pav.zar.booklibrary.dao.PersonDAO;
 import pav.zar.booklibrary.models.Book;
 import pav.zar.booklibrary.models.Person;
+import pav.zar.booklibrary.util.PersonValidator;
 
 import javax.validation.Valid;
 
@@ -61,6 +62,9 @@ public class BooksController {
 
     @PatchMapping("/{id}/assign")
     public String assignBook(@PathVariable("id") int id, @ModelAttribute("person") Person selectedPerson) {
+        if(!personDAO.getPersonById(selectedPerson.getPersonId()).isPresent()){
+            return "redirect:/books/" + id;
+        }
         bookDAO.assign(id, selectedPerson);
         return "redirect:/books/" + id;
     }
