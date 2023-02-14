@@ -46,6 +46,10 @@ public class PersonDAO {
         return jdbcTemplate.query("SELECT * FROM Person WHERE full_name=?",
                 new BeanPropertyRowMapper<>(Person.class), fullName).stream().findAny();
     }
+    public Optional<Person> getPersonById(int id) {
+        return jdbcTemplate.query("SELECT * FROM Person WHERE person_id=?",
+                new BeanPropertyRowMapper<>(Person.class), id).stream().findAny();
+    }
 
     public List<Book> getBooksByPersonId(int id){
         return jdbcTemplate.query("SELECT * FROM Book WHERE person_id=?", new BeanPropertyRowMapper<>(Book.class), id);
