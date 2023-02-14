@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import pav.zar.booklibrary.models.Book;
+import pav.zar.booklibrary.models.Person;
 
 import java.util.List;
 
@@ -23,18 +24,29 @@ public class BookDAO {
 
     public void save(Book book) {
         jdbcTemplate.update("INSERT INTO Book(title, author, year) VALUES(?, ?, ?)",
-                book.getTitle(), book.getAuthor(),book.getYear());
+                book.getTitle(), book.getAuthor(), book.getYear());
     }
+
     public Book show(int id) {
         return jdbcTemplate.query("SELECT * FROM Book WHERE book_id=?", new BeanPropertyRowMapper<>(Book.class), id)
                 .stream().findAny().orElse(null);
     }
+
     public void update(int id, Book updatedBook) {
         jdbcTemplate.update("UPDATE Book SET title=?, author=?, year=? WHERE book_id=?", updatedBook.getTitle(),
-                updatedBook.getAuthor(),updatedBook.getYear(), id);
+                updatedBook.getAuthor(), updatedBook.getYear(), id);
     }
 
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM Book WHERE book_id=?", id);
     }
+
+    public void assign(int id, Person selectedPerson) {
+        jdbcTemplate.update("UPDATE book SET person_id=? WHERE book_id=?", selectedPerson.getPersonId(), id);
+    }
+
+    public void release(int id) {
+        jdbcTemplate.update("UPDATE book SET person_id=? where book_id=?", null, id);
+    }
+
 }
