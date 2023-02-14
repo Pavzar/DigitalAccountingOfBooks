@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pav.zar.booklibrary.dao.BookDAO;
+import pav.zar.booklibrary.dao.PersonDAO;
 import pav.zar.booklibrary.models.Book;
+import pav.zar.booklibrary.models.Person;
 
 import javax.validation.Valid;
 
@@ -15,10 +17,12 @@ import javax.validation.Valid;
 public class BooksController {
 
     private final BookDAO bookDAO;
+    private final PersonDAO personDAO;
 
     @Autowired
-    public BooksController(BookDAO bookDAO) {
+    public BooksController(BookDAO bookDAO, PersonDAO personDAO) {
         this.bookDAO = bookDAO;
+        this.personDAO = personDAO;
     }
 
     @GetMapping()
@@ -36,16 +40,29 @@ public class BooksController {
     public String create(@ModelAttribute("book") @Valid Book book,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "books/new";
+            return "books/show";
 
         bookDAO.save(book);
         return "redirect:/books";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
+    public String show(@ModelAttribute("person") Person person, @PathVariable("id") int id, Model model) {
         model.addAttribute("book", bookDAO.show(id));
+        model.addAttribute("people", personDAO.index());
         return "books/show";
+    }
+
+    @PatchMapping("/{id}/release")
+    public String releaseBook(@PathVariable("id") int id){
+        bookDAO.release(id);
+        return "redirect:/books/"+ id;
+    }
+
+    @PatchMapping("/{id}/assign")
+    public String assignBook(@PathVariable("id") int id, @ModelAttribute("person") Person selectedPerson) {
+        bookDAO.assign(id, selectedPerson);
+        return "redirect:/books/" + id;
     }
 
     @GetMapping("/{id}/edit")

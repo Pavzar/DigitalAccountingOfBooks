@@ -9,6 +9,18 @@
 <p th:text="${book.getTitle() + ', '+book.getAuthor() + ', '+ book.getYear()}">VALUE</p>
 
 
+<form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getBookId()})}" th:object="${person}">
+
+<select th:object="${person}" th:field="*{personId}" id="person">
+    <option th:each="person : ${people}" th:value="${person.getPersonId()}" th:text="${person.getFullName()}"/>
+</select>
+    <input type="submit" value="Assign a book"/>
+</form>
+<br/>
+<form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getBookId()})}">
+    <input type="submit" value="Release a book"/>
+</form>
+
 <hr/>
 <a th:href="@{/books/{id}/edit(id=${book.getBookId()})}">Edit</a>
 <br/>
