@@ -8,6 +8,7 @@ import pav.zar.booklibrary.models.Book;
 import pav.zar.booklibrary.models.Person;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class BookDAO {
@@ -47,6 +48,11 @@ public class BookDAO {
 
     public void release(int id) {
         jdbcTemplate.update("UPDATE book SET person_id=? where book_id=?", null, id);
+    }
+
+    public Optional<Person> getBookOwner(int id){
+        return jdbcTemplate.query("SELECT Person.* FROM book JOIN person ON person.person_id = book.person_id WHERE book.book_id =?",
+                new BeanPropertyRowMapper<>(Person.class), id).stream().findAny();
     }
 
 }
